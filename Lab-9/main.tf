@@ -43,9 +43,7 @@ resource "aws_ssm_parameter" "rds_password" {
 // Retrieve Password
 data "aws_ssm_parameter" "rds_password" {
     name = "prod/prod-mysql-rds/password"
-    depends_on = [
-      aws_ssm_parameter.rds_password
-    ]
+    depends_on = [aws_ssm_parameter.rds_password]
 }
 
 #-----------------------
