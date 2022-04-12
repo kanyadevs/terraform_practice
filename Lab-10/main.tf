@@ -86,14 +86,17 @@ data "aws_secretsmanager_secret_version" "rds" {
 #-------
 output "rds_address" {
   value = jsondecode(data.aws_secretsmanager_secret_version.rds.secret_string)["rds_address"]
+  sensitive = true
 }
 
 output "rds_port" {
   value = jsondecode(data.aws_secretsmanager_secret_version.rds.secret_string)["rds_port"]
+  sensitive = true
 }
 
 output "rds_username" {
   value = jsondecode(data.aws_secretsmanager_secret_version.rds.secret_string)["rds_username"]
+  sensitive = true
 }
 
 output "rds_password" {
