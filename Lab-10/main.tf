@@ -64,6 +64,7 @@ resource "aws_secretsmanager_secret_version" "rds_password" {
 
 //Retrieve Password
 data "aws_secretsmanager_secret_version" "rds_password" {
+    name = "/prod/rds/password"
     secret_id = aws_secretsmanager_secret.rds_password.id
     depends_on = [
       aws_secretsmanager_secret_version.rds_password
