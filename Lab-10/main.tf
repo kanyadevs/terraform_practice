@@ -5,8 +5,17 @@
 #
 # Made by Denis Astahov
 #------------------------------------------------------------------
+terraform {
+    required_providers {
+        aws = {
+        source = "hashicorp/aws"
+        version = "~> 4.8.0"
+        }
+    }
+}
+
 provider "aws" {
-  region = "ca-central-1"
+  region = "eu-west-2"
 }
 
 resource "aws_db_instance" "prod" {
@@ -15,7 +24,7 @@ resource "aws_db_instance" "prod" {
   storage_type         = "gp2"
   engine               = "mysql"
   engine_version       = "5.7"
-  instance_class       = "db.t3.micro"
+  instance_class       = "db.t2.micro"
   parameter_group_name = "default.mysql5.7"
   skip_final_snapshot  = true
   apply_immediately    = true
