@@ -22,7 +22,7 @@ resource "aws_db_instance" "prod" {
     skip_final_snapshot = true
     apply_immediately = true
     username = "administrator"
-    password = data.aws_ssm_parameter.rds_password_retrieve.value
+    password = data.aws_ssm_parameter.rds_password.value
 }
 
 // Generate Password
@@ -41,7 +41,7 @@ resource "aws_ssm_parameter" "rds_password" {
 }
 
 // Retrieve Password
-data "aws_ssm_parameter" "rds_password_retrieve" {
+data "aws_ssm_parameter" "rds_password" {
     name = "prod/prod-mysql-rds/password"
     depends_on = [aws_ssm_parameter.rds_password]
 }
@@ -60,6 +60,6 @@ output "rds_username" {
 }
 
 output "rds_password" {
-    value = data.aws_ssm_parameter.rds_password_retrieve.value
+    value = data.aws_ssm_parameter.rds_password.value
     sensitive = true
 }
