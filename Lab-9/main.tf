@@ -34,7 +34,7 @@ resource "random_password" "main" {
 
 // Store Password
 resource "aws_ssm_parameter" "rds_password" {
-    name = "/prod/prod-mysql-rds/password/"
+    name = "/prod/prod-mysql-rds/password"
     description = "Master password for RDS database"
     type = "SecureString"
     value = random_password.main.result
@@ -42,7 +42,7 @@ resource "aws_ssm_parameter" "rds_password" {
 
 // Retrieve Password
 data "aws_ssm_parameter" "rds_password" {
-    name = "prod/prod-mysql-rds/password/"
+    name = "/prod/prod-mysql-rds/password"
     depends_on = [aws_ssm_parameter.rds_password]
 }
 
