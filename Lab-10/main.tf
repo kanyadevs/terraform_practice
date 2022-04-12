@@ -99,6 +99,6 @@ output "rds_password" {
 
 output "rds_all" {
     value = jsonencode(data.aws_secretsmanager_secret_version.rds.secret_string)
-  
+    sensitive = true
 }
 
