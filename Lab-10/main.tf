@@ -57,7 +57,7 @@ resource "aws_secretsmanager_secret_version" "rds" {
     })
 }
 
-resource "aws_secretsmanager_secret_version" "rds_password" {
+resource "aws_secretsmanager_secret_version" "rds" {
     secret_id = aws_secretsmanager_secret.rds.id
     secret_string = random_password.main.result
 }
