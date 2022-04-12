@@ -22,7 +22,7 @@ resource "aws_db_instance" "prod" {
     skip_final_snapshot = true
     apply_immediately = true
     username = "administrator"
-    password = random_password.main.result
+    password = data.aws_secretsmanager_secret_version.rds_password.secret_string
 }
 
 // Generate Password
@@ -32,6 +32,26 @@ resource "random_password" "main" {
     override_special = "#!()_"
 }
 
+// Store Password
+resource "aws_secretsmanager_secret" "rds_password" {
+    name = "/prod/rds/password"
+    description = "Password for my RDS database"
+    recovery_window_in_days = 0
+  
+}
+
+resource "aws_secretsmanager_secret_version" "rds_password" {
+    secret_id = aws_secretsmanager_secret.rds_password.id
+    secret_string = random_password.main.result
+}
+
+//Retrieve Password
+data "aws_secretsmanager_secret_version" "rds_password" {
+    secret_id = aws_secretsmanager_secret.rds_password.id
+    depends_on = [
+      aws_secretsmanager_secret_version.rds_password
+    ]
+}
 
 
 #-----------------------
