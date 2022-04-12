@@ -57,7 +57,7 @@ resource "aws_secretsmanager_secret_version" "rds" {
     })
 }
 
-resource "aws_secretsmanager_secret_version" "rds" {
+resource "aws_secretsmanager_secret_version" "rds_password" {
     secret_id = aws_secretsmanager_secret.rds.id
     secret_string = random_password.main.result
 }
@@ -71,7 +71,7 @@ data "aws_secretsmanager_secret_version" "rds_password" {
 }
 
 //Retrieve ALL
-data "aws_secretsmanager_secret_version" "rds_password" {
+data "aws_secretsmanager_secret_version" "rds" {
     secret_id = aws_secretsmanager_secret.rds.id
     depends_on = [
       aws_secretsmanager_secret_version.rds
