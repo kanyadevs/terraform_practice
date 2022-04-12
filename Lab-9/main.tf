@@ -22,12 +22,45 @@ resource "aws_db_instance" "prod" {
     skip_final_snapshot = true
     apply_immediately = true
     username = "administrator"
-    password = "qwerty1234!"
+    password = data.aws_ssm_parameter.rds_password.value
 }
 
+// Generate Password
 resource "random_password" "main" {
     length = 20
     special = true
     override_special = "#!()_"
-  
+}
+
+// Store Password
+resource "aws_ssm_parameter" "rds_password" {
+    name = "/prod/prod-mysql-rds/password"
+    description = "Master password for RDS database"
+    type = "SecureString"
+    value = random_password.main.result
+}
+
+// Retrieve Password
+data "aws_ssm_parameter" "rds_password" {
+    name = "prod/prod-mysql-rds/password"
+    depends_on = [
+      aws_ssm_parameter.rds_password
+    ]
+}
+
+#-----------------------
+output "rds_address" {
+    value = aws_db_instance.prod.address
+}
+
+output "rds_port" {
+    value = aws_db_instance.prod.port
+}
+
+output "rds_username" {
+    value = aws_db_instance.prod.username
+}
+
+output "rds_password" {
+    value = data.aws_ssm_parameter.rds_password.value
 }
