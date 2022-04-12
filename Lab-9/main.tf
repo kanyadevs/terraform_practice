@@ -22,7 +22,7 @@ resource "aws_db_instance" "prod" {
     skip_final_snapshot = true
     apply_immediately = true
     username = "administrator"
-    password = data.aws_ssm_parameter.rds_password.value
+    password = data.aws_ssm_parameter.rds_password_retrieve.value
 }
 
 // Generate Password
@@ -60,6 +60,6 @@ output "rds_username" {
 }
 
 output "rds_password" {
-    value = data.aws_ssm_parameter.rds_password.value
+    value = data.aws_ssm_parameter.rds_password_retrieve.value
     sensitive = true
 }
