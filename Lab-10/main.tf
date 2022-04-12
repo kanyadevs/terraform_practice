@@ -40,8 +40,25 @@ resource "aws_secretsmanager_secret" "rds_password" {
   
 }
 
-resource "aws_secretsmanager_secret_version" "rds_password" {
+//Store All RDS parameters
+resource "aws_secretsmanager_secret" "rds" {
+    name = "/prod/rds/all"
+    description = "All details for my RDS Database"
+    recovery_window_in_days = 0
+  
+}
+
+resource "aws_secretsmanager_secret_version" "rds" {
     secret_id = aws_secretsmanager_secret.rds_password.id
+    secret_string = jsonencode({
+        rds_address = aws_db_instance.prod.address
+        rds_port = aws_db_instance.prod.port
+        rds_username = aws_db_instance.prod.username
+    })
+}
+
+resource "aws_secretsmanager_secret_version" "rds_password" {
+    secret_id = aws_secretsmanager_secret.rds.id
     secret_string = random_password.main.result
 }
 
@@ -50,6 +67,14 @@ data "aws_secretsmanager_secret_version" "rds_password" {
     secret_id = aws_secretsmanager_secret.rds_password.id
     depends_on = [
       aws_secretsmanager_secret_version.rds_password
+    ]
+}
+
+//Retrieve ALL
+data "aws_secretsmanager_secret_version" "rds_password" {
+    secret_id = aws_secretsmanager_secret.rds.id
+    depends_on = [
+      aws_secretsmanager_secret_version.rds
     ]
 }
 
@@ -71,3 +96,9 @@ output "rds_password" {
     value = random_password.main.result
     sensitive = true
 }
+
+output "rds_all" {
+    value = jsonencode(data.aws_secretsmanager_secret_version.rds.secret_string)
+  
+}
+
