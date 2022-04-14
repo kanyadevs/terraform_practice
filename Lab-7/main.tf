@@ -22,7 +22,6 @@ resource "aws_instance" "my_server_web" {
       aws_instance.my_server_db,
       aws_instance.my_server_app
     ]
-  
 }
 
 resource "aws_instance" "my_server_app" {
