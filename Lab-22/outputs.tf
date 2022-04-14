@@ -23,3 +23,11 @@ output "server_id_ip_map" {
 output "users_all" {
     value = aws_iam_user.user
 }
+
+output "users_unique_id_arn" {
+    value = [
+        for user in aws_iam_user.user:
+        "UserID: ${user.unique_id} has ARN: ${user.arn}"
+    ]
+  
+}
