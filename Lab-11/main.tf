@@ -11,6 +11,9 @@ provider "aws" {}
 
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
+data "aws_availability_zone" "working" {
+  
+}
 
 output "region_name" {
     value = data.aws_region.current.name
@@ -22,4 +25,8 @@ output "region_description" {
 
 output "account_id" {
     value = data.aws_caller_identity.current.account_id
+}
+
+output "availability_zone" {
+    value = data.aws_availability_zone.working.names
 }
