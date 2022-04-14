@@ -11,6 +11,11 @@ provider "aws" {
     region = "us-west-2"
 }
 
+/*resource "aws_instance" "my_server_web" {
+    ami = data.aws_ami.latest_linux2.id
+    instance_type = "t2.micro"
+  
+}*/
 
 data "aws_ami" "latest_ubuntu" {
     owners = ["099720109477"] 
