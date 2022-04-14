@@ -28,5 +28,5 @@ output "account_id" {
 }
 
 output "availability_zone" {
-    value = data.aws_availability_zone.working.all_availability_zones
+    value = data.aws_availability_zone.working.name
 }
