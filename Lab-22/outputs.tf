@@ -19,3 +19,7 @@ output "server_id_ip_map" {
         x.id => x.public_ip
     }
 }
+
+output "users_all" {
+    value = aws_iam_user.user
+}
