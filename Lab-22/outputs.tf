@@ -31,3 +31,12 @@ output "users_unique_id_arn" {
     ]
   
 }
+
+output "users_unique_id_name_custom" {
+    value = {
+        for user in aws_iam_user.user:
+        user.unique_id => user.name
+        if length(user.name) < 7
+    }
+  
+}
