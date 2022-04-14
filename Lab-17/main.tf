@@ -42,7 +42,7 @@ resource "null_resource" "command4" {
 }
 
 resource "aws_instance" "my_server" {
-    ami = "ami-03e88be9ecff64781"
+    ami = "ami-034ef92d9dd822b08"
     instance_type = "t2.micro"
     provisioner "local-exec" {
         command = "echo ${aws_instance.myserver.private_ip} >> log.txt"
